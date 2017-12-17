@@ -1,0 +1,30 @@
+plugins {
+  id 'application'
+  id 'org.jetbrains.kotlin.jvm' version '1.2.0'
+}
+
+mainClassName = "jp.toastkid.wordcloud.Main"
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+  compile 'org.jetbrains.kotlin:kotlin-stdlib-jre8'
+  compile "com.sparkjava:spark-kotlin:1.0.0-alpha"
+}
+
+jar {
+  manifest {
+    attributes 'Main-Class'   : mainClassName
+  }
+  destinationDir = projectDir
+  from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+  kotlinOptions {
+    jvmTarget = '1.8'
+  }
+}
+
